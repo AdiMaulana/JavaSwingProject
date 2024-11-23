@@ -10,7 +10,7 @@ package constant;
  */
 public class Constant {
     public static final String DEFAULT_FULLNAME = "Adi Maulana";
-    public static final String DEFAULT_EMAIL = "adi.maulana@pactindo.com";        
+    public static final String DEFAULT_EMAIL = "adi.maulana.amin@gmail.com";        
     public static final String DEFAULT_USERNAME = "SuperUser";
-    public static final String DEFAULT_PASSWORD = "P@ssw0rd1";
+    public static final String DEFAULT_PASSWORD = "Def4ult_P@ssw0rd1";
 }

@@ -4,6 +4,7 @@
  */
 package apprentalbike;
 
+import form.LoginFrame;
 import model.User;
 import model.UserRegistry;
 import constant.Constant;
