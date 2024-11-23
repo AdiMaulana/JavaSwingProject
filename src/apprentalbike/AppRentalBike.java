@@ -30,7 +30,7 @@ public class AppRentalBike {
         UserRegistry.userList.add(newUser);
 
         // TODO code application logic here
-        Login loginFrame = new Login();
+        LoginFrame loginFrame = new LoginFrame();
         loginFrame.setVisible(true);
         loginFrame.pack();
         loginFrame.setLocationRelativeTo(null);
