@@ -8,8 +8,7 @@ import form.LoginFrame;
 import java.awt.HeadlessException;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import model.User;
-import model.UserRegistry;
+import service.UserService;
 import validator.EmailValidator;
 import validator.NameValidator;
 import validator.PasswordValidator;
@@ -75,8 +74,6 @@ public class SignUpFrame extends javax.swing.JFrame {
 
         jLabel9.setForeground(new java.awt.Color(245, 245, 245));
         jLabel9.setText("and start journey with us");
-
-        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icon-moto-jemping.png"))); // NOI18N
 
         javax.swing.GroupLayout RightLayout = new javax.swing.GroupLayout(Right);
         Right.setLayout(RightLayout);
@@ -287,13 +284,26 @@ public class SignUpFrame extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(new JFrame(), "Kata Sandi Tidak Kuat. Harus >8 karakter, termasuk huruf, angka, dan karakter khusus.", "Error",  
                         JOptionPane.ERROR_MESSAGE);
             } else {
-                // Create a new User object and add it to the global user registry
-                User newUser = new User(fullName, email, username, password);
-                // Add the user to the global list
-                UserRegistry.userList.add(newUser);
-                
-                JOptionPane.showMessageDialog(new JFrame(), "Registrasi Data Berhasil Disimpan", "Sukses",  
-                        JOptionPane.INFORMATION_MESSAGE);
+                UserService userService = new UserService();
+                try {
+                    // Set isCreated value from create account, that create in User Service;
+                    boolean isCreated = userService.createUser(fullName, email, username, password);
+
+                    if (isCreated) {
+                        JOptionPane.showMessageDialog(new JFrame(), "Registrasi Data Berhasil Disimpan", "Sukses",
+                                JOptionPane.INFORMATION_MESSAGE);
+                        clearInputFields();
+                    } else {
+                        JOptionPane.showMessageDialog(new JFrame(), "Gagal melakukan Registrasi", "Error",
+                                JOptionPane.ERROR_MESSAGE);
+                    }
+                } catch (Exception e) {
+                     JOptionPane.showMessageDialog(new JFrame(), "Terjadi kesalahan saat registrasi: " + e.getMessage(), "Error",
+                                JOptionPane.ERROR_MESSAGE);
+                     e.printStackTrace(); // Log the exception for debugging
+
+                }
+
                 clearInputFields();
             }
         } catch (HeadlessException e) {

@@ -9,6 +9,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import model.User;
 import model.UserRegistry;
+import service.AuthenticationService;
 
 /**
  *
@@ -58,8 +59,6 @@ public class LoginFrame extends javax.swing.JFrame {
 
         Right.setBackground(new java.awt.Color(0, 102, 102));
         Right.setPreferredSize(new java.awt.Dimension(400, 500));
-
-        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icon-moto-jemping.png"))); // NOI18N
 
         jLabel5.setFont(new java.awt.Font("SansSerif", 1, 36)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(245, 245, 245));
@@ -248,38 +247,36 @@ public class LoginFrame extends javax.swing.JFrame {
         String password = new String(passwordArray);
                 
         try {
-//            if (username.length() == 0 ) {
-//                JOptionPane.showMessageDialog(new JFrame(), "Username harus diisi", "Error",  
-//                        JOptionPane.ERROR_MESSAGE);
-//            } else if (password.length() == 0 ) {
-//                JOptionPane.showMessageDialog(new JFrame(), "Password harus diisi", "Error",  
-//                        JOptionPane.ERROR_MESSAGE);
-//            } else {
-//                                
-//                boolean isValidUser = false;
-//
-//                for (User user : UserRegistry.userList) {
-//                    System.out.println("username "+ user.getUsername() + " | password "+user.getPassword());
-//                    if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
-//                        isValidUser = true;
-//                        break;
-//                    }
-//                }
-//                
-//                if (isValidUser) {
+            if (username.length() == 0 ) {
+                JOptionPane.showMessageDialog(new JFrame(), "Username harus diisi", "Error",  
+                        JOptionPane.ERROR_MESSAGE);
+            } else if (password.length() == 0 ) {
+                JOptionPane.showMessageDialog(new JFrame(), "Password harus diisi", "Error",  
+                        JOptionPane.ERROR_MESSAGE);
+            } else {
+                // Proceed with logged-in actions here...     
+                // Create an instance of the AuthenticationService
+                AuthenticationService authService = new AuthenticationService();
+                boolean isAuthenticated = authService.authenticateUser(username, password);
+
+                if (isAuthenticated) {
+                    // Login successful
+                    JOptionPane.showMessageDialog(null, "Login successful!");
+                    
                     System.out.println("Login Successful!");
                     
+                    // Open the main application window, etc.
                     MainFrame mainFrame = new MainFrame();
                     mainFrame.setVisible(true);
                     mainFrame.pack();
                     mainFrame.setLocationRelativeTo(null);
                     
                     this.dispose();
-                    // Proceed with logged-in actions here...
-//                } else {
-//                    JOptionPane.showMessageDialog(this, "Username atau Password tidak valid", "Error", JOptionPane.ERROR_MESSAGE);
-//                }
-//            }
+                    
+                } else {
+                    JOptionPane.showMessageDialog(this, "Username dan Password tidak valid", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
         } catch (HeadlessException e) {
             System.err.println(e);
         }
