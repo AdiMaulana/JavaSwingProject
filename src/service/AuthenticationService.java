@@ -1,6 +1,6 @@
 package service; 
 
-import com.clothing.distro.DatabaseConnection;  
+import dao.DatabaseConnection;  
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

@@ -1,12 +1,9 @@
 package com.clothing.distro;
 
+import dao.DatabaseConnection;
 import form.LoginFrame;
 import java.sql.Connection;
 
-/**
- *
- * @author Anonym
- */
 public class ClothingDistroApp {
     public static void main(String[] args) {
         

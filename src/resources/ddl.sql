@@ -42,5 +42,16 @@ ALTER TABLE users ALTER COLUMN id SET DEFAULT nextval('users_id_seq');
 
 ALTER SEQUENCE users_id_seq OWNED BY users.id;
 
+INSERT INTO clothes (id, name, price, stock) VALUES
+(1, 'DeadSquad - Curse Of The Black Plague', 180000, 5),
+(2, 'COLORCODE - Check My Sanity', 155000, 2),
+(3, 'KOIL - Megalo Emperor', 160000, 6),
+(4, 'Revenge The Fate - Sinsera', 200000, 8),
+(5, 'Eastcape - Obsessed', 180000, 1),
+(6, 'The Sigit - Another Day', 160000, 2),
+(7, 'Morfem - Sneakerfuzz', 140000, 9),
+(8, 'Darksovls - Radiusinis', 160000, 3),
+(9, 'Modern Guns - Everything Falls Apart', 160000, 2),
+(10, 'Puupen - Injak Balik!', 190000, 1);
 
 

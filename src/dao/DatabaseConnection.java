@@ -1,4 +1,4 @@
-package com.clothing.distro;
+package dao;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -18,7 +18,7 @@ public class DatabaseConnection {
         try {
             // Load properties file
             Properties props = new Properties();
-            InputStream input = getClass().getClassLoader().getResourceAsStream("db.properties");
+            InputStream input = getClass().getClassLoader().getResourceAsStream("resources/db.properties");
             if (input != null) {
                 props.load(input);
             } else {
