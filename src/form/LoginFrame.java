@@ -262,7 +262,7 @@ public class LoginFrame extends javax.swing.JFrame {
                     List<Clothing> clotheList = clothingService.getAllClothes();
 
                     // Convert the data to the format required by JTable
-                    String[] columnNames = {"Nomor", "Nama Baju", "Harga", "Stock"};
+                    String[] columnNames = {"ID", "Nama Baju", "Harga", "Stock"};
                     Object[][] data = convertClothesListToArray(clotheList);
                     
                     // Open the main application window, etc.

@@ -517,7 +517,7 @@ public class MainFrame extends javax.swing.JFrame {
                 data[i][2] = clothes.getPrice();
                 data[i][3] = clothes.getStock();
             }
-            setClothingData(data, columnNames);
+            setClothingDataCollection(data, columnNames);
 
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(this, "Error fetching clothing data: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -530,7 +530,7 @@ public class MainFrame extends javax.swing.JFrame {
         ClothingServiceImpl clothingService = new ClothingServiceImpl();
         try {
             List<Clothing> clotheList = clothingService.getAllClothes();
-            String[] columnNames = {"Nomor", "Nama Baju", "Harga", "Stock"};
+            String[] columnNames = {"ID", "Nama Baju", "Harga", "Stock"};
             Object[][] data = new Object[clotheList.size()][4];
             for (int i = 0; i < clotheList.size(); i++) {
                 Clothing clothes = clotheList.get(i);
@@ -659,6 +659,113 @@ public class MainFrame extends javax.swing.JFrame {
         titlePanel.setBorder(new EmptyBorder(20, 30, 10, 30));
 
         JLabel titleLabel = new JLabel("Clothing Stock Dashboard", SwingConstants.LEFT);
+        Font labelFont = new Font("Arial", Font.BOLD, 18);
+        titleLabel.setFont(labelFont);
+
+        Color labelColor = new Color(0x36464E);
+        titleLabel.setForeground(labelColor);
+        titlePanel.add(titleLabel, BorderLayout.WEST);
+
+        jPanel3.add(titlePanel, BorderLayout.NORTH);
+
+        // Table Model
+        DefaultTableModel tableModel = new DefaultTableModel(data, columnNames) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return column == getColumnCount() - 1;
+            }
+
+            @Override
+            public Class<?> getColumnClass(int columnIndex) {
+                if (columnIndex == getColumnCount() - 1) {
+                    return JButton.class;
+                }
+                return Object.class;
+            }
+        };
+
+        // Action Column
+        tableModel.addColumn("Action");
+
+        // Table
+        JTable table = new JTable(tableModel);
+        table.setBackground(backgroundColor);
+        table.setForeground(textColor);
+        table.setFont(new Font("SansSerif", Font.PLAIN, 14));
+        table.getTableHeader().setFont(new Font("SansSerif", Font.BOLD, 14));
+        table.getTableHeader().setBackground(accentColor);
+        table.getTableHeader().setForeground(Color.WHITE);
+
+        // Set column width
+        table.getColumnModel().getColumn(0).setPreferredWidth(50); // Nomor
+        table.getColumnModel().getColumn(1).setPreferredWidth(200); // Nama Baju
+        table.getColumnModel().getColumn(2).setPreferredWidth(80);  // Stok
+        table.getColumnModel().getColumn(3).setPreferredWidth(80);  // Harga
+        table.getColumnModel().getColumn(4).setPreferredWidth(100); // Action
+
+        // Cell Renderer
+        DefaultTableCellRenderer cellRenderer = new DefaultTableCellRenderer();
+        cellRenderer.setHorizontalAlignment(SwingConstants.LEFT);
+        table.setDefaultRenderer(Object.class, cellRenderer);
+
+        // Add detail button
+        for (int i = 0; i < table.getRowCount(); i++) {
+            tableModel.setValueAt(new JButton("Purchase"), i, columnNames.length); // Add button to each row.
+        }
+
+        // Set renderer and editor for the "Action" column
+        ButtonRenderer buttonRenderer = new ButtonRenderer();
+        ButtonEditorPurchase buttonEditorPurchase = new ButtonEditorPurchase(new JCheckBox(), MainFrame.this);
+        TableColumn actionColumn = table.getColumnModel().getColumn(columnNames.length);
+        actionColumn.setCellRenderer(buttonRenderer);
+        actionColumn.setCellEditor(buttonEditorPurchase);
+
+        JScrollPane scrollPane = new JScrollPane(table);
+        scrollPane.setBorder(new EmptyBorder(10, 30, 30, 30));
+        scrollPane.getViewport().setBackground(backgroundColor);
+
+        jPanel3.add(scrollPane, BorderLayout.CENTER);
+
+        // Stats Panel (Example - adapt to your needs)
+        JPanel statsPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 30, 0));
+        statsPanel.setBackground(backgroundColor);
+        statsPanel.setBorder(new EmptyBorder(0, 30, 20, 30));
+
+        JLabel totalStockLabel = new JLabel("Total Stock: 500");
+        totalStockLabel.setFont(new Font("SansSerif", Font.BOLD, 16));
+        totalStockLabel.setForeground(textColor);
+
+        JLabel totalRevenueLabel = new JLabel("Total Revenue: $10,000");
+        totalRevenueLabel.setFont(new Font("SansSerif", Font.BOLD, 16));
+        totalRevenueLabel.setForeground(textColor);
+
+        statsPanel.add(totalStockLabel);
+        statsPanel.add(totalRevenueLabel);
+
+        jPanel3.add(statsPanel, BorderLayout.SOUTH);
+
+        // Revalidate and Repaint
+        jPanel3.revalidate();
+        jPanel3.repaint();
+    }
+    
+    public void setClothingDataCollection(Object[][] data, String[] columnNames) {
+        jPanel3.removeAll();
+        jPanel3.setLayout(new BorderLayout());
+
+        // Dashboard Theme Colors
+        Color backgroundColor = new Color(245, 245, 245); // Light gray/off-white
+        Color textColor = new Color(51, 51, 51); // Dark gray
+        Color accentColor = new Color(0, 128, 128); // Teal
+
+        jPanel3.setBackground(backgroundColor);
+
+        // Title Panel
+        JPanel titlePanel = new JPanel(new BorderLayout());
+        titlePanel.setBackground(backgroundColor);
+        titlePanel.setBorder(new EmptyBorder(20, 30, 10, 30));
+
+        JLabel titleLabel = new JLabel("Daftar Koleksi Pakaian", SwingConstants.LEFT);
         Font labelFont = new Font("Arial", Font.BOLD, 18);
         titleLabel.setFont(labelFont);
 
@@ -799,9 +906,53 @@ public class MainFrame extends javax.swing.JFrame {
                 int modelRow = table.convertRowIndexToModel(row);
                 DefaultTableModel model = (DefaultTableModel) table.getModel();
 
-//                // Create and show the custom dialog
-//                ClothingDetailDialog dialog = new ClothingDetailDialog(mainFrame, "Clothing Details", true, model, modelRow);
-//                dialog.setVisible(true);
+                // Create and show the custom dialog
+                ClothingDetailDialog dialog = new ClothingDetailDialog(mainFrame, "Clothing Details", true, model, modelRow);
+                dialog.setVisible(true);
+                
+                fireEditingStopped();
+            });
+        }
+
+        @Override
+        public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
+            this.table = table;
+            this.row = row;
+            return button;
+        }
+
+        @Override
+        public Object getCellEditorValue() {
+            return "Detail"; // Return the button text
+        }
+
+        @Override
+        public boolean isCellEditable(EventObject e) {
+            return true;
+        }
+    }
+
+    static class ButtonEditorPurchase extends DefaultCellEditor {
+
+        protected JButton button;
+        private int row;
+        private JTable table;
+        private MainFrame mainFrame;
+
+        public ButtonEditorPurchase(JCheckBox checkBox, MainFrame mainFrame) {
+            super(checkBox);
+            this.mainFrame = mainFrame;
+            button = new JButton();
+            button.setOpaque(true);
+            button.setText("Purchase"); // Set button text here
+            button.setFocusPainted(false);
+            button.setMargin(new Insets(5, 5, 5, 5)); // 5px padding
+            button.setPreferredSize(new Dimension(80, 25)); //set size for button detail
+
+            button.addActionListener(e -> {
+                int modelRow = table.convertRowIndexToModel(row);
+                DefaultTableModel model = (DefaultTableModel) table.getModel();
+
                 // Get Clothing value
                 int clothingId = Integer.parseInt(model.getValueAt(modelRow, 0).toString());
                 String namaBaju = model.getValueAt(modelRow, 1).toString();
@@ -824,7 +975,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         @Override
         public Object getCellEditorValue() {
-            return "Detail"; // Return the button text
+            return "Purchase"; // Return the button text
         }
 
         @Override
