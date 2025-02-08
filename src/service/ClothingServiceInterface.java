@@ -6,7 +6,7 @@ import model.Clothing;
 
 public interface ClothingServiceInterface {
 
-    List<Clothing> getAllClothes();
+    List<Clothing> getAllClothes() throws SQLException;
 
     public void addClothing(String name, int price, int stock) throws SQLException;
 

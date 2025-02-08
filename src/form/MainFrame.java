@@ -8,8 +8,13 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Insets;
 import java.sql.SQLException;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.EventObject;
 import java.util.List;
+import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
@@ -30,7 +35,11 @@ import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.PlainDocument;
 import model.Clothing;
+import model.Revenue;
+import model.User;
 import service.impl.ClothingServiceImpl;
+import service.impl.RevenueServiceImpl;
+import service.impl.UserServiceImpl;
 
 public class MainFrame extends javax.swing.JFrame {
 
@@ -65,7 +74,6 @@ public class MainFrame extends javax.swing.JFrame {
         jLabel14 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
@@ -104,6 +112,9 @@ public class MainFrame extends javax.swing.JFrame {
 
         jPanel5.setBackground(new java.awt.Color(54, 70, 78));
         jPanel5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel5MouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 jPanel5MouseEntered(evt);
             }
@@ -155,6 +166,9 @@ public class MainFrame extends javax.swing.JFrame {
 
         jPanel7.setBackground(new java.awt.Color(54, 70, 78));
         jPanel7.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel7MouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 jPanel7MouseEntered(evt);
             }
@@ -178,6 +192,9 @@ public class MainFrame extends javax.swing.JFrame {
 
         jPanel8.setBackground(new java.awt.Color(54, 70, 78));
         jPanel8.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel8MouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 jPanel8MouseEntered(evt);
             }
@@ -201,6 +218,9 @@ public class MainFrame extends javax.swing.JFrame {
 
         jPanel9.setBackground(new java.awt.Color(54, 70, 78));
         jPanel9.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel9MouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 jPanel9MouseEntered(evt);
             }
@@ -268,10 +288,6 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
         jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 12, 40, 40));
-
-        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/about.png"))); // NOI18N
-        jLabel6.setText("jLabel6");
-        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(-20, 30, 230, 620));
 
         jPanel4.setBackground(new java.awt.Color(0, 102, 102));
 
@@ -466,6 +482,102 @@ public class MainFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jPanel10MouseClicked
 
+    private void jPanel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel8MouseClicked
+
+        UserServiceImpl userService = new UserServiceImpl();
+        try {
+            List<User> members = userService.getAllMembers();
+            String[] columnNames = {"ID", "Role", "Nama Member", "Email", "Username"};
+            Object[][] data = new Object[members.size()][5];
+
+            for (int i = 0; i < members.size(); i++) {
+                User member = members.get(i);
+                data[i] = new Object[]{member.getId(), member.getRoleName(), member.getFullName(), member.getEmail(), member.getUsername()};
+            }
+
+            setMemberData(data, columnNames);
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Error fetching member data: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_jPanel8MouseClicked
+
+    private void jPanel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel7MouseClicked
+
+        ClothingServiceImpl clothingService = new ClothingServiceImpl();
+        try {
+            List<Clothing> clotheList = clothingService.getAllClothes();
+            String[] columnNames = {"Nomor", "Nama Baju", "Harga", "Stock"};
+            Object[][] data = new Object[clotheList.size()][4];
+            for (int i = 0; i < clotheList.size(); i++) {
+                Clothing clothes = clotheList.get(i);
+                data[i][0] = clothes.getId();
+                data[i][1] = clothes.getName();
+                data[i][2] = clothes.getPrice();
+                data[i][3] = clothes.getStock();
+            }
+            setClothingData(data, columnNames);
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Error fetching clothing data: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_jPanel7MouseClicked
+
+    private void jPanel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel5MouseClicked
+
+        ClothingServiceImpl clothingService = new ClothingServiceImpl();
+        try {
+            List<Clothing> clotheList = clothingService.getAllClothes();
+            String[] columnNames = {"Nomor", "Nama Baju", "Harga", "Stock"};
+            Object[][] data = new Object[clotheList.size()][4];
+            for (int i = 0; i < clotheList.size(); i++) {
+                Clothing clothes = clotheList.get(i);
+                data[i][0] = clothes.getId();
+                data[i][1] = clothes.getName();
+                data[i][2] = clothes.getPrice();
+                data[i][3] = clothes.getStock();
+            }
+            setClothingData(data, columnNames);
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Error fetching clothing data: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_jPanel5MouseClicked
+
+    private void jPanel9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel9MouseClicked
+
+        RevenueServiceImpl revenueService = new RevenueServiceImpl();
+        try {
+            Locale localeID = new Locale("in", "ID");
+            NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(localeID);
+            currencyFormatter.setMaximumFractionDigits(0); // Remove decimal places
+
+            List<Revenue> revenues = revenueService.getAllRevenues();
+            String[] columnNames = {"Clothing", "Sale Date", "Pembeli", "Quantity", "Harga Item", "Total"};
+            Object[][] data = new Object[revenues.size()][6];
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MMM-yyyy");
+            for (int i = 0; i < revenues.size(); i++) {
+                Revenue revenue = revenues.get(i);
+                String saleDate = dateFormat.format(revenue.getSaleDate());
+                data[i] = new Object[]{
+                    revenue.getClothingName(),
+                    saleDate,
+                    revenue.getCustomerName() != null ? revenue.getCustomerName() : "Guest",
+                    revenue.getQuantity(),
+                    currencyFormatter.format(revenue.getPricePerItem()),
+                    currencyFormatter.format(revenue.getTotalAmount()),};
+            }
+            setRevenueData(data, columnNames);
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Error fetching revenue data: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_jPanel9MouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -515,7 +627,6 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
@@ -530,86 +641,6 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     // End of variables declaration//GEN-END:variables
-//
-//    public void setClothingData(Object[][] data, String[] columnNames) {
-//        jPanel3.removeAll();
-//        jPanel3.setLayout(new BorderLayout());
-//
-//        // Create a panel to hold the title and button
-//        JPanel titlePanel = new JPanel(new BorderLayout());
-//        titlePanel.setBorder(new EmptyBorder(10, 25, 10, 25)); // Same border as title label
-//
-//        JLabel titleLabel = new JLabel("Daftar Clothing Stock", SwingConstants.LEFT);
-//        Font labelFont = new Font("Arial", Font.BOLD, 18);
-//        titleLabel.setFont(labelFont);
-//
-//        Color labelColor = new Color(0x36464E);
-//        titleLabel.setForeground(labelColor);
-//
-//        titlePanel.add(titleLabel, BorderLayout.WEST);
-//
-//        // Create TableModel FIRST, including the "Action" column.
-//        DefaultTableModel tableModel = new DefaultTableModel(data, columnNames) {
-//            @Override
-//            public boolean isCellEditable(int row, int column) {
-//                return column == getColumnCount() - 1; // Only the last column (Action) is editable
-//            }
-//
-//            @Override
-//            public Class<?> getColumnClass(int columnIndex) {
-//                if (columnIndex == getColumnCount() - 1) {
-//                    return JButton.class; // Specify the class for the Action column
-//                }
-//                return Object.class;
-//            }
-//        };
-//
-//        MainFrame mainFrame = MainFrame.this;
-//
-//        JButton addButton = new JButton("Tambah Stock");
-//        addButton.setBackground(new Color(0, 102, 102)); // #006666 or your preferred color
-//        addButton.setForeground(Color.WHITE);
-//        addButton.setFocusPainted(false);
-//        addButton.setPreferredSize(new Dimension(150, 30)); // Adjust size as needed
-//
-//        addButton.addActionListener(e -> {
-//            AddClothingDialog dialog = new AddClothingDialog(mainFrame, "Tambah Data Clothing", true, tableModel);
-//            dialog.setVisible(true);
-//        });
-//
-//        titlePanel.add(addButton, BorderLayout.EAST);
-//
-//        jPanel3.add(titlePanel, BorderLayout.NORTH);
-//
-//        // ADD the "Action" column to the TableModel.  This is CRUCIAL.
-//        tableModel.addColumn("Action");
-//
-//        // Create the JTable
-//        JTable table = new JTable(tableModel);
-//
-//        // Set renderer and editor for the "Action" column
-//        ButtonRenderer buttonRenderer = new ButtonRenderer();
-//        ButtonEditor buttonEditor = new ButtonEditor(new JCheckBox(), mainFrame);
-//        TableColumn actionColumn = table.getColumnModel().getColumn(columnNames.length);
-//        actionColumn.setCellRenderer(buttonRenderer);
-//        actionColumn.setCellEditor(buttonEditor);
-//
-//        // *Populate* the "Action" column with buttons.  Also CRUCIAL.
-//        for (int i = 0; i < table.getRowCount(); i++) {
-//            tableModel.setValueAt(new JButton("Detail"), i, columnNames.length); // Add button to each row.
-//        }
-//
-//        TableColumnAdjuster tca = new TableColumnAdjuster(table);
-//        tca.adjustColumns();
-//
-//        JScrollPane scrollPane = new JScrollPane(table);
-//        scrollPane.setBorder(new EmptyBorder(10, 10, 10, 20));
-//
-//        jPanel3.add(scrollPane, BorderLayout.CENTER);
-//
-//        jPanel3.revalidate();
-//        jPanel3.repaint();
-//    }
 
     public void setClothingData(Object[][] data, String[] columnNames) {
         jPanel3.removeAll();
@@ -640,7 +671,7 @@ public class MainFrame extends javax.swing.JFrame {
         addButton.setForeground(Color.WHITE);
         addButton.setFocusPainted(false);
         addButton.setPreferredSize(new Dimension(140, 35));
-        
+
         titlePanel.add(addButton, BorderLayout.EAST);
 
         jPanel3.add(titlePanel, BorderLayout.NORTH);
@@ -660,14 +691,14 @@ public class MainFrame extends javax.swing.JFrame {
                 return Object.class;
             }
         };
-        
+
         MainFrame mainFrame = MainFrame.this;
-        
+
         addButton.addActionListener(e -> {
             AddClothingDialog dialog = new AddClothingDialog(mainFrame, "Tambah Data Clothing", true, tableModel);
             dialog.setVisible(true);
         });
-        
+
         // Action Column
         tableModel.addColumn("Action");
 
@@ -768,11 +799,19 @@ public class MainFrame extends javax.swing.JFrame {
                 int modelRow = table.convertRowIndexToModel(row);
                 DefaultTableModel model = (DefaultTableModel) table.getModel();
 
+//                // Create and show the custom dialog
+//                ClothingDetailDialog dialog = new ClothingDetailDialog(mainFrame, "Clothing Details", true, model, modelRow);
+//                dialog.setVisible(true);
+                // Get Clothing value
+                int clothingId = Integer.parseInt(model.getValueAt(modelRow, 0).toString());
+                String namaBaju = model.getValueAt(modelRow, 1).toString();
+                double harga = Double.parseDouble(model.getValueAt(modelRow, 2).toString());
+
                 // Create and show the custom dialog
-                ClothingDetailDialog dialog = new ClothingDetailDialog(mainFrame, "Clothing Details", true, model, modelRow);
+                BeliClothingDialog dialog = new BeliClothingDialog(mainFrame, "Purchase Clothing", true, clothingId, namaBaju, harga);
                 dialog.setVisible(true);
 
-//                fireEditingStopped();
+                fireEditingStopped();
             });
         }
 
@@ -1009,12 +1048,15 @@ public class MainFrame extends javax.swing.JFrame {
                         JOptionPane.showMessageDialog(ClothingDetailDialog.this, "Error menyimpan data: " + ex.getMessage());
                     }
 
-                    // Get the clothing data
-                    List<Clothing> clotheList = clothingService.getAllClothes();
+                    try {
+                        List<Clothing> clotheList = clothingService.getAllClothes();
 
-                    // Convert the data to the format required by JTable
-                    String[] columnNames = {"Nomor", "Nama Baju", "Harga", "Stock"};
-                    Object[][] data = convertClothesListToArray(clotheList);
+                        String[] columnNames = {"Nomor", "Nama Baju", "Harga", "Stock"};
+                        Object[][] data = convertClothesListToArray(clotheList);
+
+                    } catch (SQLException ex) {
+                        Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+                    }
 
                     JOptionPane.showMessageDialog(ClothingDetailDialog.this, "Data deleted successfully.");
                     dispose();
@@ -1068,9 +1110,130 @@ public class MainFrame extends javax.swing.JFrame {
             } catch (NumberFormatException e) {
                 return; // Ignore non-numeric input
             }
-
             super.insertString(offs, str, a);
         }
     }
 
+    public void setMemberData(Object[][] data, String[] columnNames) {
+        jPanel3.removeAll();
+        jPanel3.setLayout(new BorderLayout());
+
+        // Dashboard Theme Colors
+        Color backgroundColor = new Color(245, 245, 245); // Light gray/off-white
+        Color textColor = new Color(51, 51, 51); // Dark gray
+        Color accentColor = new Color(0, 128, 128); // Teal
+
+        jPanel3.setBackground(backgroundColor);
+
+        // Title Panel
+        JPanel titlePanel = new JPanel(new BorderLayout());
+        titlePanel.setBackground(backgroundColor);
+        titlePanel.setBorder(new EmptyBorder(20, 30, 10, 30));
+
+        JLabel titleLabel = new JLabel("List Member", SwingConstants.LEFT);
+        Font labelFont = new Font("Arial", Font.BOLD, 18);
+        titleLabel.setFont(labelFont);
+
+        Color labelColor = new Color(0x36464E);
+        titleLabel.setForeground(labelColor);
+        titlePanel.add(titleLabel, BorderLayout.WEST);
+
+        jPanel3.add(titlePanel, BorderLayout.NORTH);
+
+        // Table Model
+        DefaultTableModel tableModel = new DefaultTableModel(data, columnNames) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false; // Make cells non-editable
+            }
+        };
+
+        // Table
+        JTable table = new JTable(tableModel);
+        table.setBackground(backgroundColor);
+        table.setForeground(textColor);
+        table.setFont(new Font("SansSerif", Font.PLAIN, 14));
+        table.getTableHeader().setFont(new Font("SansSerif", Font.BOLD, 14));
+        table.getTableHeader().setBackground(accentColor);
+        table.getTableHeader().setForeground(Color.WHITE);
+
+        // Set column widths
+        table.getColumnModel().getColumn(0).setPreferredWidth(50);   // ID
+        table.getColumnModel().getColumn(1).setPreferredWidth(120);  // Nama Role
+        table.getColumnModel().getColumn(2).setPreferredWidth(200);  // Nama Lengkap
+        table.getColumnModel().getColumn(3).setPreferredWidth(200);  // Email
+        table.getColumnModel().getColumn(4).setPreferredWidth(150);  // Username
+
+        // Left-align all columns
+        DefaultTableCellRenderer leftRenderer = new DefaultTableCellRenderer();
+        leftRenderer.setHorizontalAlignment(SwingConstants.LEFT);
+        for (int i = 0; i < table.getColumnCount(); i++) {
+            table.getColumnModel().getColumn(i).setCellRenderer(leftRenderer);
+        }
+
+        JScrollPane scrollPane = new JScrollPane(table);
+        scrollPane.setBorder(new EmptyBorder(10, 30, 30, 30));
+        scrollPane.getViewport().setBackground(backgroundColor);
+
+        jPanel3.add(scrollPane, BorderLayout.CENTER);
+
+        // Revalidate and Repaint
+        jPanel3.revalidate();
+        jPanel3.repaint();
+    }
+
+    public void setRevenueData(Object[][] data, String[] columnNames) {
+        jPanel3.removeAll();
+        jPanel3.setLayout(new BorderLayout());
+
+        Color backgroundColor = new Color(245, 245, 245); // Light gray/off-white
+        Color textColor = new Color(51, 51, 51); // Dark gray
+        Color accentColor = new Color(0, 128, 128); // Teal
+
+        jPanel3.setBackground(backgroundColor);
+
+        JPanel titlePanel = new JPanel(new BorderLayout());
+        titlePanel.setBackground(backgroundColor);
+        titlePanel.setBorder(new EmptyBorder(20, 30, 10, 30));
+
+        JLabel titleLabel = new JLabel("Revenue Data", SwingConstants.LEFT);
+        Font labelFont = new Font("Arial", Font.BOLD, 18);
+        titleLabel.setFont(labelFont);
+
+        Color labelColor = new Color(0x36464E);
+        titleLabel.setForeground(labelColor);
+        titlePanel.add(titleLabel, BorderLayout.WEST);
+
+        jPanel3.add(titlePanel, BorderLayout.NORTH);
+
+        DefaultTableModel tableModel = new DefaultTableModel(data, columnNames) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+
+        JTable table = new JTable(tableModel);
+        table.setBackground(backgroundColor);
+        table.setForeground(textColor);
+        table.setFont(new Font("SansSerif", Font.PLAIN, 14));
+        table.getTableHeader().setFont(new Font("SansSerif", Font.BOLD, 14));
+        table.getTableHeader().setBackground(accentColor);
+        table.getTableHeader().setForeground(Color.WHITE);
+
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+        for (int i = 0; i < table.getColumnCount(); i++) {
+            table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+        }
+
+        JScrollPane scrollPane = new JScrollPane(table);
+        scrollPane.setBorder(new EmptyBorder(10, 30, 30, 30));
+        scrollPane.getViewport().setBackground(backgroundColor);
+
+        jPanel3.add(scrollPane, BorderLayout.CENTER);
+
+        jPanel3.revalidate();
+        jPanel3.repaint();
+    }
 }

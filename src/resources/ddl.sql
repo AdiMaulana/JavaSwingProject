@@ -60,4 +60,21 @@ ALTER TABLE clothes ALTER COLUMN id SET DEFAULT nextval('clothes_id_seq');
 
 ALTER SEQUENCE clothes_id_seq OWNED BY clothes.id;
 
+CREATE TABLE revenue (
+    id SERIAL PRIMARY KEY,                  -- Unique identifier for the sale
+    clothing_id INTEGER NOT NULL,          -- Foreign key to your clothing table
+    sale_date TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT NOW(),  -- Date and time of the sale
+    quantity INTEGER NOT NULL,             -- Number of items sold
+    price_per_item DECIMAL(10, 2) NOT NULL, -- Price of each item
+    total_amount DECIMAL(10, 2) NOT NULL,   -- Total amount for this line item (quantity * price_per_item)
+    customer_id INTEGER,                   -- (Optional) Foreign key to your customer table
+    discount_amount DECIMAL(10, 2) DEFAULT 0.00, -- (Optional) Discount amount applied
+    payment_method VARCHAR(50),             -- (Optional) e.g., "Credit Card", "Cash", "Online"
+    FOREIGN KEY (clothing_id) REFERENCES clothes(id) -- Assuming you have a 'clothing' table with an 'id' column
+);
 
+CREATE SEQUENCE revenue_id_seq;
+
+ALTER TABLE revenue ALTER COLUMN id SET DEFAULT nextval('revenue_id_seq');
+
+ALTER SEQUENCE revenue_id_seq OWNED BY revenue.id;

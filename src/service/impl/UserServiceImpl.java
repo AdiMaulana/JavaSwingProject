@@ -1,6 +1,8 @@
-package service;
+package service.impl;
 
 import dao.DatabaseConnection;
+import dao.UserDaoInterface;
+import dao.impl.UserDaoImpl;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -10,9 +12,23 @@ import java.nio.charset.StandardCharsets;
 import java.math.BigInteger;
 import java.util.Arrays;
 import java.security.SecureRandom;
+import java.util.List;
+import model.User;
+import service.UserServiceInterface;
 
-public class UserService {
+public class UserServiceImpl implements UserServiceInterface{
 
+    private UserDaoInterface userDaoInterface;
+
+    public UserServiceImpl() {
+         this.userDaoInterface = new UserDaoImpl();
+    }
+    
+    @Override
+    public List<User> getAllMembers() throws SQLException {
+        return userDaoInterface.getAllMembers();
+    }
+    
     public boolean createUser(String name, String email, String username, String password) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -112,4 +128,3 @@ public class UserService {
         return Arrays.toString(salt);
     }
 }
-

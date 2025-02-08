@@ -1,6 +1,8 @@
 package model;
 
 public class User {
+    private int id;
+    private String roleName;
     private String fullName;
     private String email;
     private String username;
@@ -16,6 +18,31 @@ public class User {
         this.password = password;
     }
 
+    public User(int id, String roleName, String fullName, String email, String username) {
+        this.id = id;
+        this.roleName = roleName;
+        this.fullName = fullName;
+        this.email = email;
+        this.username = username;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getRoleName() {
+        return roleName;
+    }
+
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
+    }
+
+    
     public void setFullName(String fullName) {
         this.fullName = fullName;
     }

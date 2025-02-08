@@ -15,12 +15,8 @@ public class ClothingServiceImpl implements ClothingServiceInterface {
         this.clothingDao = new ClothingDaoImpl();
     }
     
-    public ClothingServiceImpl(ClothingDaoInterface clothingDao) {
-        this.clothingDao = clothingDao;
-    }
-
     @Override
-    public List<Clothing> getAllClothes() {
+    public List<Clothing> getAllClothes() throws SQLException {
         return clothingDao.getAllClothes();
     }
 

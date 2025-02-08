@@ -1,5 +1,6 @@
 package service; 
 
+import constant.SessionManager;
 import dao.DatabaseConnection;  
 
 import java.sql.Connection;
@@ -30,7 +31,7 @@ public class AuthenticationService {
             }
 
             // 2. Construct the SQL query to retrieve the salt and hashed password
-            String sql = "SELECT password, salt FROM users WHERE username = ?"; // Get password and salt
+            String sql = "SELECT id, password, salt FROM users WHERE username = ?"; // Get password and salt
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, username);
 
@@ -38,6 +39,7 @@ public class AuthenticationService {
 
             if (resultSet.next()) {
                 // User found, retrieve stored hash and salt
+                int userId = resultSet.getInt("id");
                 String storedHash = resultSet.getString("password");
                 String salt = resultSet.getString("salt");
 
@@ -47,6 +49,8 @@ public class AuthenticationService {
                 // Compare the entered password's hash with the stored hash
                 if (storedHash.equals(hashedPassword)) {
                     isAuthenticated = true;
+                    
+                    SessionManager.setUserId(userId);
                 }
             }
         } catch (SQLException e) {

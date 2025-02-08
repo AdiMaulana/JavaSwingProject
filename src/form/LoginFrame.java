@@ -10,6 +10,9 @@ import model.Clothing;
 import service.AuthenticationService;
 import service.impl.ClothingServiceImpl;
 import dao.ClothingDaoInterface;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class LoginFrame extends javax.swing.JFrame {
 
@@ -278,6 +281,8 @@ public class LoginFrame extends javax.swing.JFrame {
             }
         } catch (HeadlessException e) {
             System.err.println(e);
+        } catch (SQLException ex) {
+            Logger.getLogger(LoginFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_loginButtonActionPerformed
 

@@ -4,7 +4,7 @@ import form.LoginFrame;
 import java.awt.HeadlessException;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import service.UserService;
+import service.impl.UserServiceImpl;
 import validator.EmailValidator;
 import validator.NameValidator;
 import validator.PasswordValidator;
@@ -268,7 +268,7 @@ public class SignUpFrame extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(new JFrame(), "Kata Sandi Tidak Kuat. Harus >8 karakter, termasuk huruf, angka, dan karakter khusus.", "Error",  
                         JOptionPane.ERROR_MESSAGE);
             } else {
-                UserService userService = new UserService();
+                UserServiceImpl userService = new UserServiceImpl();
                 try {
                     // Set isCreated value from create account, that create in User Service;
                     boolean isCreated = userService.createUser(fullName, email, username, password);

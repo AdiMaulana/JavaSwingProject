@@ -6,6 +6,8 @@ import model.Clothing;
 
 public interface ClothingDaoInterface { 
     
+    Clothing getClothingById(int id) throws SQLException;
+    
     List<Clothing> getAllClothes();
     
     void insertClothing(Clothing clothing) throws SQLException;
@@ -13,4 +15,6 @@ public interface ClothingDaoInterface {
     void updateClothing(Clothing clothing) throws SQLException;
     
     void deleteClothing(int id) throws SQLException;
+
+    public boolean updateStock(int clothingId, int quantity);
 }
