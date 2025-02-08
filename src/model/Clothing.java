@@ -1,15 +1,15 @@
 package model;
 
-public class Clothe {
+public class Clothing {
     private int id;
     private String name;
     private double price;
     private int stock;
 
-    public Clothe() {
+    public Clothing() {
     }
 
-    public Clothe(int id, String name, double price, int stock) {
+    public Clothing(int id, String name, double price, int stock) {
         this.id = id;
         this.name = name;
         this.price = price;

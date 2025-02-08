@@ -1,15 +1,15 @@
 package form;
 
-import dao.ClotheDaoInterface;
 import dao.DatabaseConnection;
-import dao.impl.ClotheDaoImpl;
+import dao.impl.ClothingDaoImpl;
 import java.awt.HeadlessException;
 import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import model.Clothe;
+import model.Clothing;
 import service.AuthenticationService;
-import service.impl.ClotheServiceImpl;
+import service.impl.ClothingServiceImpl;
+import dao.ClothingDaoInterface;
 
 public class LoginFrame extends javax.swing.JFrame {
 
@@ -228,7 +228,7 @@ public class LoginFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_usernameTextFieldActionPerformed
 
-    private ClotheServiceImpl clotheService = new ClotheServiceImpl(); ;
+    private ClothingServiceImpl clothingService = new ClothingServiceImpl(); 
 
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
         // TODO add your handling code here:
@@ -256,7 +256,7 @@ public class LoginFrame extends javax.swing.JFrame {
                     System.out.println("Login Successful!");
                     
                     // Get the clothing data
-                    List<Clothe> clotheList = clotheService.getAllClothes();
+                    List<Clothing> clotheList = clothingService.getAllClothes();
 
                     // Convert the data to the format required by JTable
                     String[] columnNames = {"Nomor", "Nama Baju", "Harga", "Stock"};
@@ -281,10 +281,10 @@ public class LoginFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_loginButtonActionPerformed
 
-    public Object[][] convertClothesListToArray(List<Clothe> clotheList) {
+    public Object[][] convertClothesListToArray(List<Clothing> clotheList) {
         Object[][] data = new Object[clotheList.size()][4];
         for (int i = 0; i < clotheList.size(); i++) {
-            Clothe clothes = clotheList.get(i);
+            Clothing clothes = clotheList.get(i);
             data[i][0] = clothes.getId();
             data[i][1] = clothes.getName();
             data[i][2] = clothes.getPrice();
