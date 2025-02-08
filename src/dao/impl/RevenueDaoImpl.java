@@ -85,7 +85,7 @@ public class RevenueDaoImpl implements RevenueDaoInterface{
             String sql = "SELECT "
                     + "    r.clothing_id, "
                     + "    r.sale_date, "
-                    + "    u.username AS customer_name, "
+                    + "    u.name AS customer_name, "
                     + "    r.quantity, "
                     + "    r.price_per_item, "
                     + "    r.total_amount, "

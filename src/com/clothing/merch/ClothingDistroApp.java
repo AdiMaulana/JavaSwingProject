@@ -1,4 +1,4 @@
-package com.clothing.distro;
+package com.clothing.merch;
 
 import dao.DatabaseConnection;
 import form.LoginFrame;

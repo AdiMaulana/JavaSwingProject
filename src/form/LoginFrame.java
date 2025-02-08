@@ -11,15 +11,17 @@ import service.AuthenticationService;
 import service.impl.ClothingServiceImpl;
 import dao.ClothingDaoInterface;
 import java.sql.SQLException;
+import java.text.NumberFormat;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class LoginFrame extends javax.swing.JFrame {
-
+    
     public LoginFrame() {
         initComponents();
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -230,47 +232,47 @@ public class LoginFrame extends javax.swing.JFrame {
     private void usernameTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernameTextFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_usernameTextFieldActionPerformed
-
-    private ClothingServiceImpl clothingService = new ClothingServiceImpl(); 
+    
+    private ClothingServiceImpl clothingService = new ClothingServiceImpl();    
 
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
         // TODO add your handling code here:
         String username = usernameTextField.getText();
         char[] passwordArray = passwordTextField.getPassword();
         String password = new String(passwordArray);
-                
+        
         try {
-            if (username.length() == 0 ) {
-                JOptionPane.showMessageDialog(new JFrame(), "Username harus diisi", "Error",  
+            if (username.length() == 0) {
+                JOptionPane.showMessageDialog(new JFrame(), "Username harus diisi", "Error",
                         JOptionPane.ERROR_MESSAGE);
-            } else if (password.length() == 0 ) {
-                JOptionPane.showMessageDialog(new JFrame(), "Password harus diisi", "Error",  
+            } else if (password.length() == 0) {
+                JOptionPane.showMessageDialog(new JFrame(), "Password harus diisi", "Error",
                         JOptionPane.ERROR_MESSAGE);
             } else {
                 // Proceed with logged-in actions here...     
                 // Create an instance of the AuthenticationService
                 AuthenticationService authService = new AuthenticationService();
                 boolean isAuthenticated = authService.authenticateUser(username, password);
-
+                
                 if (isAuthenticated) {
                     // Login successful
                     JOptionPane.showMessageDialog(null, "Login successful!");
                     
                     System.out.println("Login Successful!");
-                    
+
                     // Get the clothing data
                     List<Clothing> clotheList = clothingService.getAllClothes();
 
                     // Convert the data to the format required by JTable
-                    String[] columnNames = {"ID", "Nama Baju", "Harga", "Stock"};
+                    String[] columnNames = {"ID", "Nama Merchandise", "Harga", "Stock"};
                     Object[][] data = convertClothesListToArray(clotheList);
-                    
+
                     // Open the main application window, etc.
                     MainFrame mainFrame = new MainFrame();
                     mainFrame.setVisible(true);
                     mainFrame.pack();
                     mainFrame.setLocationRelativeTo(null);
-                   
+                    
                     mainFrame.setClothingData(data, columnNames); // Set the data in main frame
                     
                     this.dispose();
@@ -285,14 +287,19 @@ public class LoginFrame extends javax.swing.JFrame {
             Logger.getLogger(LoginFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_loginButtonActionPerformed
-
+    
     public Object[][] convertClothesListToArray(List<Clothing> clotheList) {
+        
+        Locale localeID = new Locale("in", "ID");
+        NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(localeID);
+        currencyFormatter.setMaximumFractionDigits(0); // Remove decimal places
+        
         Object[][] data = new Object[clotheList.size()][4];
         for (int i = 0; i < clotheList.size(); i++) {
             Clothing clothes = clotheList.get(i);
             data[i][0] = clothes.getId();
             data[i][1] = clothes.getName();
-            data[i][2] = clothes.getPrice();
+            data[i][2] = currencyFormatter.format(clothes.getPrice());
             data[i][3] = clothes.getStock();
         }
         return data;
@@ -314,16 +321,16 @@ public class LoginFrame extends javax.swing.JFrame {
 
     private void showHidePasswordCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showHidePasswordCheckBoxActionPerformed
         // TODO add your handling code here:
-       // Check if the checkbox is selected
-       if (showHidePasswordCheckBox.isSelected()) {
-           // If selected, show the password
-           passwordTextField.setEchoChar((char) 0); 
-           showHidePasswordCheckBox.setText("Hide Password");
-       } else {
-           // If not selected, hide the password
-           passwordTextField.setEchoChar('*'); 
-           showHidePasswordCheckBox.setText("Show Password");
-       }
+        // Check if the checkbox is selected
+        if (showHidePasswordCheckBox.isSelected()) {
+            // If selected, show the password
+            passwordTextField.setEchoChar((char) 0);            
+            showHidePasswordCheckBox.setText("Hide Password");
+        } else {
+            // If not selected, hide the password
+            passwordTextField.setEchoChar('*');            
+            showHidePasswordCheckBox.setText("Show Password");
+        }
     }//GEN-LAST:event_showHidePasswordCheckBoxActionPerformed
 
     /**

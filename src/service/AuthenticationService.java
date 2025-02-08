@@ -31,7 +31,7 @@ public class AuthenticationService {
             }
 
             // 2. Construct the SQL query to retrieve the salt and hashed password
-            String sql = "SELECT id, password, salt FROM users WHERE username = ?"; // Get password and salt
+            String sql = "SELECT id, role_id, name, username, password, salt FROM users WHERE username = ?"; // Get password and salt
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, username);
 
@@ -40,6 +40,9 @@ public class AuthenticationService {
             if (resultSet.next()) {
                 // User found, retrieve stored hash and salt
                 int userId = resultSet.getInt("id");
+                int roleId = resultSet.getInt("role_id");
+                String usernameDb = resultSet.getString("username");
+                String customerName = resultSet.getString("name");
                 String storedHash = resultSet.getString("password");
                 String salt = resultSet.getString("salt");
 
@@ -51,6 +54,9 @@ public class AuthenticationService {
                     isAuthenticated = true;
                     
                     SessionManager.setUserId(userId);
+                    SessionManager.setRoleId(roleId);
+                    SessionManager.setUserName(usernameDb);
+                    SessionManager.setName(customerName);
                 }
             }
         } catch (SQLException e) {

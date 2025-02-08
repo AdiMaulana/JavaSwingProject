@@ -20,7 +20,7 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.PlainDocument;
 import service.impl.RevenueServiceImpl;
 
-public class BeliClothingDialog extends JDialog {
+public class PurchaseClothingDialog extends JDialog {
 
     private JTextField namaBajuField;
     private JTextField hargaField;
@@ -31,7 +31,7 @@ public class BeliClothingDialog extends JDialog {
     private String namaBaju;
     private double harga;
 
-    public BeliClothingDialog(MainFrame parent, String title, boolean modal, int clothingId, String namaBaju, double harga) {
+    public PurchaseClothingDialog(MainFrame parent, String title, boolean modal, int clothingId, String namaBaju, double harga) {
         super(parent, title, modal);
         this.clothingId = clothingId;
         this.namaBaju = namaBaju;
@@ -52,7 +52,7 @@ public class BeliClothingDialog extends JDialog {
         namaBajuField.setEditable(false);
 
         hargaField = new JTextField(30);
-        hargaField.setText(String.valueOf(harga));
+        hargaField.setText(String.format("%.0f", harga));
         hargaField.setEditable(false);
 
         jumlahBeliField = new JTextField(30);
@@ -75,7 +75,7 @@ public class BeliClothingDialog extends JDialog {
         totalBayarField = new JTextField(30);
         totalBayarField.setEditable(false);
 
-        contentPanel.add(createFieldPanel("Nama Baju:", namaBajuField));
+        contentPanel.add(createFieldPanel("Nama Merch:", namaBajuField));
         contentPanel.add(createFieldPanel("Harga:", hargaField));
         contentPanel.add(createFieldPanel("Jumlah Beli:", jumlahBeliField));
         contentPanel.add(createFieldPanel("Total Bayar:", totalBayarField));
@@ -108,14 +108,14 @@ public class BeliClothingDialog extends JDialog {
                 //Save data to database
                 boolean success = saveToRevenueTable(clothingId, jumlahBeli, harga, totalBayar);
                 if (success) {
-                    JOptionPane.showMessageDialog(BeliClothingDialog.this, "Pembelian berhasil!");
+                    JOptionPane.showMessageDialog(PurchaseClothingDialog.this, "Pembelian merchandise berhasil!");
                     dispose();
                 } else {
                     JOptionPane.showMessageDialog(this, "Stok Habis", "Insufficient Stock", JOptionPane.ERROR_MESSAGE);
                 }
 
             } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(BeliClothingDialog.this, "Jumlah Beli harus berupa angka.");
+                JOptionPane.showMessageDialog(PurchaseClothingDialog.this, "Jumlah Beli harus berupa angka.");
             }
         });
 
@@ -143,7 +143,7 @@ public class BeliClothingDialog extends JDialog {
         try {
             int jumlahBeli = Integer.parseInt(jumlahBeliField.getText());
             double totalBayar = harga * jumlahBeli;
-            totalBayarField.setText(String.valueOf(totalBayar));
+            totalBayarField.setText(String.format("%.0f", totalBayar));
         } catch (NumberFormatException ex) {
             totalBayarField.setText(""); // Clear the total if input is invalid
         }
@@ -158,7 +158,7 @@ public class BeliClothingDialog extends JDialog {
              result = revenueService.addRevenue(SessionManager.getUserId(), clothingId, quantity, pricePerItem, totalAmount);
 
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(BeliClothingDialog.this, "Error menyimpan revenue data: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(PurchaseClothingDialog.this, "Error menyimpan revenue data: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
         }
 
