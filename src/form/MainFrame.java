@@ -498,9 +498,16 @@ public class MainFrame extends javax.swing.JFrame {
 
         if (choice == JOptionPane.YES_OPTION) {
             MainFrame.this.dispose();
-
+            // clear session login
+            final int CLEAR_SESSION = 0;
+            final String CLEAR_SESSION_USER = "";
+            SessionManager.setUserId(CLEAR_SESSION);
+            SessionManager.setRoleId(CLEAR_SESSION);
+            SessionManager.setName(CLEAR_SESSION_USER);
+            SessionManager.setUserName(CLEAR_SESSION_USER);
+            // redirect to login page
             LoginFrame loginPage = new LoginFrame();
-            loginPage.setLocationRelativeTo(null); // Centers the frame on the screen
+            loginPage.setLocationRelativeTo(null); 
             loginPage.setVisible(true);
         }
     }//GEN-LAST:event_jPanel10MouseClicked

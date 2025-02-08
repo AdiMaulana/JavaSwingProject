@@ -7,7 +7,7 @@ import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import model.Clothing;
-import service.AuthenticationService;
+import service.impl.AuthenticationService;
 import service.impl.ClothingServiceImpl;
 import dao.ClothingDaoInterface;
 import java.sql.SQLException;
@@ -240,7 +240,6 @@ public class LoginFrame extends javax.swing.JFrame {
         String username = usernameTextField.getText();
         char[] passwordArray = passwordTextField.getPassword();
         String password = new String(passwordArray);
-        
         try {
             if (username.length() == 0) {
                 JOptionPane.showMessageDialog(new JFrame(), "Username harus diisi", "Error",
@@ -253,20 +252,14 @@ public class LoginFrame extends javax.swing.JFrame {
                 // Create an instance of the AuthenticationService
                 AuthenticationService authService = new AuthenticationService();
                 boolean isAuthenticated = authService.authenticateUser(username, password);
-                
                 if (isAuthenticated) {
                     // Login successful
-                    JOptionPane.showMessageDialog(null, "Login successful!");
-                    
-                    System.out.println("Login Successful!");
-
+                    JOptionPane.showMessageDialog(null, "Login berhasil!");
                     // Get the clothing data
                     List<Clothing> clotheList = clothingService.getAllClothes();
-
                     // Convert the data to the format required by JTable
                     String[] columnNames = {"ID", "Nama Merchandise", "Harga", "Stock"};
                     Object[][] data = convertClothesListToArray(clotheList);
-
                     // Open the main application window, etc.
                     MainFrame mainFrame = new MainFrame();
                     mainFrame.setVisible(true);
@@ -274,9 +267,7 @@ public class LoginFrame extends javax.swing.JFrame {
                     mainFrame.setLocationRelativeTo(null);
                     
                     mainFrame.setClothingData(data, columnNames); // Set the data in main frame
-                    
                     this.dispose();
-                    
                 } else {
                     JOptionPane.showMessageDialog(this, "Username dan Password tidak valid", "Error", JOptionPane.ERROR_MESSAGE);
                 }
