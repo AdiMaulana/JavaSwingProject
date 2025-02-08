@@ -1,12 +1,3 @@
-/* 
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Other/SQLTemplate.sql to edit this template
- */
-/**
- * Author:  User
- * Created: Feb 7, 2025
- */
-
 CREATE TABLE clothes (
     id INT PRIMARY KEY,
     name VARCHAR(255),
@@ -23,7 +14,7 @@ CREATE TABLE roles (
 
 INSERT INTO roles (id, code, name, description)
 VALUES (1, 'A', 'Admin', 'Administration Role'), 
-(2, 'U', 'User', 'User Role');
+(2, 'U', 'User', 'Customer Role');
 
 CREATE TABLE users (
     id INT PRIMARY KEY,

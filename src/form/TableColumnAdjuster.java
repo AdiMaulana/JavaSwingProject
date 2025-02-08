@@ -1,8 +1,6 @@
 package form;
 
 import java.awt.Component;
-import java.awt.FontMetrics;
-import java.awt.Graphics;
 import java.awt.Rectangle;
 
 import javax.swing.JTable;

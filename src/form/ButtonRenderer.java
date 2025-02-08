@@ -13,11 +13,13 @@ class ButtonRenderer extends DefaultTableCellRenderer {
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
         JButton button = null;
         try {
-            button = (JButton) value;
-            if (button != null) {
-                button.setMargin(new Insets(5, 5, 5, 5)); // Top, Left, Bottom, Right (5px padding)
-                button.setPreferredSize(new Dimension(80, 25)); //set size for button detail
-                button.setFocusPainted(false);
+            if (value instanceof JButton) {
+                button = (JButton) value;
+                if (button != null) {
+                    button.setMargin(new Insets(5, 5, 5, 5)); // Top, Left, Bottom, Right (5px padding)
+                    button.setPreferredSize(new Dimension(80, 25)); //set size for button detail
+                    button.setFocusPainted(false);
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
