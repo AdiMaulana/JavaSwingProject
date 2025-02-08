@@ -19,6 +19,4 @@ Login Gagal salah password
 
 Tampilan Halaman Utama
 
-![Screenshot 2024-11-24 110157](https://github.com/user-attachments/assets/682dc346-67ec-4b51-b5c7-6df6c5df4918)
-
-![Screenshot 2024-11-24 110753](https://github.com/user-attachments/assets/c0530ffc-0321-4fd6-8194-5bcac3b608fe)
+![Image](https://github.com/user-attachments/assets/4c124153-3452-4855-b2a0-db9d45637826)
