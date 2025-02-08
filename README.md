@@ -3,7 +3,7 @@
 
 Tampilan Halaman Registasi Account
 
-![Image](https://github.com/user-attachments/assets/aa6e61b2-1128-40c9-b11a-76d88bb60e6f)
+![Image](https://github.com/user-attachments/assets/4ae8a0a5-21c5-420a-94e7-0bb1a2658ee1)
 
 Register Account Berhasil
 
